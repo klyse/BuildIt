@@ -1,0 +1,23 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+div.factory {
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    margin: 10px;
+    background: #1b1e21;
+}
+
+div.scrollmenu {
+    background-color: #e51616;
+    overflow: auto;
+}
+
+div.scrollmenu div {
+    display: inline-block;
+    color: white;
+}
+
+div.scrollmenu div:hover {
+    background-color: #777;
+}

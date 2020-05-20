@@ -1,0 +1,23 @@
+﻿@using System.Reflection
+<div class="factory">
+    <h7>@Self.Type</h7>
+    
+    
+    <br/>
+    <h8>Current output: @Self.Count</h8>
+    <br/>
+
+    <button class="btn btn-primary" @onclick="Make">Make</button>
+</div>
+
+@code{
+
+    void Make()
+    {
+        Self.Count++;
+    }
+    
+    [Parameter]
+    public Store.Factory Self { get; set; }
+
+}
