@@ -13,6 +13,18 @@ namespace BuildIt.Store
 	{
 		public FactoryType Type { get; set; }
 		public int Count { get; set; }
+
+		public void AddManual()
+		{
+			Count++;
+		}
+
+		public int Collect()
+		{
+			var cnt = Count;
+			Count = 0;
+			return cnt;
+		}
 	}
 
 	public class SaveGame

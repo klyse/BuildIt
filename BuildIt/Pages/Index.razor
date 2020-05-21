@@ -1,27 +1,10 @@
 ﻿@page "/"
 @using BuildIt.Store
-@inject IStateManager StateManager
-
-@{ var list = new List<string>{ ".NET", "Python","Java" }; }
-<Dropdown TItem="string" OnSelected="@OnSelected" >
-    <InitialTip>This is a dropdown list</InitialTip>
-    <ChildContent>
-        <DropdownListItem Item="@list[0]">.NET</DropdownListItem>
-        <DropdownListItem Item="@list[1]">Python</DropdownListItem>
-        <div class="dropdown-divider"></div>
-        <DropdownListItem Item="@list[2]">Java</DropdownListItem>
-    </ChildContent>
-</Dropdown>
-
-
-<br/>
-<br/>
-
-<h1>Counter</h1>
 
 @if (_state.Loaded){
-<p>Available Coal: @_state.Factories.Sum(c => c.Count)</p>
+<p>Available Coal: @_state.Coal</p>
 
+<button class="btn btn-primary" @onclick="Save">Save</button>
 <button class="btn btn-primary" @onclick="AddFactory">Add Factory</button>
 
     <div class="scrollmenu">
@@ -33,16 +16,16 @@
 }
 
 @code {
-    void OnSelected(string selection)
+
+    async Task Save()
     {
-        Console.WriteLine(selection);
+        await StateManager.SaveAsync();
     }
     
     private void AddFactory()
     {
         _state.Factories.Add(new Store.Factory());
     }
-    SaveGame _state = new SaveGame();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
