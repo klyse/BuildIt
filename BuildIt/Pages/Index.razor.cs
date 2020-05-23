@@ -8,22 +8,36 @@ namespace BuildIt.Pages
 {
 	public partial class Index
 	{
-		[Inject] protected IStateManager StateManager { get; set; }
-		private static System.Timers.Timer aTimer;
+		private static Timer _timer;
 
-		SaveGame _state = new SaveGame();
+		private SaveGame _state = new SaveGame();
 
 		public Index()
 		{
-			aTimer = new Timer(1000);
-			aTimer.Enabled = true;
-			aTimer.Elapsed += Elapsed;
+			_timer = new Timer(1000);
+			_timer.Elapsed += Elapsed;
 		}
+
+		[Inject] protected IStateManager StateManager { get; set; }
 
 		private void Elapsed(object sender, ElapsedEventArgs e)
 		{
-			_state.Coal += _state.Factories.Sum(c => c.Collect());
-			StateHasChanged();
+			InvokeAsync(() =>
+			{
+				var now = DateTime.UtcNow;
+				var delta = (int) (DateTime.UtcNow - _state.LastTick).TotalMilliseconds;
+
+				foreach (var factory in _state.Factories) factory.Work(delta);
+
+				_state.Coal += _state.Factories.Sum(c => c.Collect(10));
+				_state.LastTick = now;
+				StateHasChanged();
+			});
+		}
+
+		private void AddFactory()
+		{
+			_state.Factories.Add(new Factory());
 		}
 	}
 }

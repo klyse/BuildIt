@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 
@@ -24,7 +23,7 @@ namespace BuildIt.Store
 
 		public async Task LoadAsync()
 		{
-			_saveGame = await _localStorageService.GetItemAsync<SaveGame>("SaveGame");
+			_saveGame = await _localStorageService.GetItemAsync<SaveGame>("SaveGame") ?? new SaveGame();
 			_saveGame.Loaded = true;
 		}
 

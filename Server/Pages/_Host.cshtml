@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using BuildIt
 @namespace Server.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
@@ -18,7 +19,7 @@
 </head>
 <body>
 <app>
-    <component type="typeof(BuildIt.App)" render-mode="Server"/>
+    <component type="typeof(App)" render-mode="Server"/>
 </app>
 
 <div id="blazor-error-ui">

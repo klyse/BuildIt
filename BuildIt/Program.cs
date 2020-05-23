@@ -19,7 +19,7 @@ namespace BuildIt
 				{BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 
 			AddServices(builder.Services);
-			
+
 			await builder.Build().RunAsync();
 		}
 
@@ -28,7 +28,7 @@ namespace BuildIt
 			services.AddBlazoredLocalStorage();
 
 			services.AddScoped<IStateManager, StateManager>();
-			
+
 			return services;
 		}
 	}

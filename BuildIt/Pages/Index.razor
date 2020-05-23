@@ -1,11 +1,11 @@
 ﻿@page "/"
-@using BuildIt.Store
 
-@if (_state.Loaded){
-<p>Available Coal: @_state.Coal</p>
+@if (_state.Loaded)
+{
+    <p>Available Coal: @_state.Coal</p>
 
-<button class="btn btn-primary" @onclick="Save">Save</button>
-<button class="btn btn-primary" @onclick="AddFactory">Add Factory</button>
+    <button class="btn btn-primary" @onclick="SaveAsync">Save</button>
+    <button class="btn btn-primary" @onclick="AddFactory">Add Factory</button>
 
     <div class="scrollmenu">
         @foreach (var f in _state.Factories)
@@ -17,14 +17,9 @@
 
 @code {
 
-    async Task Save()
+    async Task SaveAsync()
     {
         await StateManager.SaveAsync();
-    }
-    
-    private void AddFactory()
-    {
-        _state.Factories.Add(new Store.Factory());
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -33,6 +28,7 @@
         {
             await StateManager.LoadAsync();
             _state = StateManager.Get();
+            _timer.Enabled = true;
             StateHasChanged();
         }
     }

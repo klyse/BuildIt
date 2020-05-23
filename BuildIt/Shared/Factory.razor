@@ -1,10 +1,7 @@
-﻿@using System.Reflection
 @using BuildIt.Store
 <div class="factory">
-    <h7>@Self.Type</h7>
-    
     @{ var list = Enum.GetValues(typeof(FactoryType)).Cast<FactoryType>(); }
-    <Dropdown TItem="FactoryType" OnSelected="@OnSelected" >
+    <Dropdown TItem="FactoryType" OnSelected="@OnSelected">
         <InitialTip>@Self.Type</InitialTip>
         <ChildContent>
             @foreach (var type in list)
@@ -14,16 +11,16 @@
         </ChildContent>
     </Dropdown>
 
-    
-    <br/>
-    <h8>Current output: @Self.Count</h8>
-    <br/>
+    <p>Internal storage: @Self.InternalStorage</p>
+    <p>Throughput per tick: @Self.Throughput</p>
+    <p>Current employees: @Self.Employees</p>
 
     <button class="btn btn-primary" @onclick="Make">Make</button>
+    <button class="btn btn-primary" @onclick="AddEmployee">Add employee</button>
 </div>
 
 @code{
-    
+
     void OnSelected(FactoryType selection)
     {
         Self.Type = selection;
@@ -31,9 +28,14 @@
 
     void Make()
     {
-        Self.AddManual();
+        Self.Make();
     }
-    
+
+    void AddEmployee()
+    {
+        Self.AddEmployee();
+    }
+
     [Parameter]
     public Store.Factory Self { get; set; }
 
