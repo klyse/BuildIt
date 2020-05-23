@@ -4,36 +4,57 @@ using System.Text.Json.Serialization;
 
 namespace BuildIt.Store
 {
-	public enum FactoryType
-	{
-		Coal,
-		Iron
-	}
-
 	public class Factory
 	{
-		private readonly object _lock = new object();
+		public enum FactoryStatus
+		{
+			Offline,
+			Online
+		}
+
+		public enum FactoryType
+		{
+			Coal,
+			Iron
+		}
+
+		private readonly object _employeesLock = new object();
+
+		private readonly object _internalStorageLock = new object();
 		public FactoryType Type { get; set; }
+		public FactoryStatus Status { get; set; }
 
 		public int InternalStorage { get; set; }
 
-		public double Throughput => (double) Employees / 1000;
+		public double Throughput => Status == FactoryStatus.Offline ? 0 : (double) EmployeeCount / 1000;
 
-		public int Employees { get; set; }
+		public int EmployeeCount { get; set; }
 
 		public void Make()
 		{
 			InternalStorage++;
 		}
 
-		public void AddEmployee()
+		public void HireEmployee()
 		{
-			Employees++;
+			lock (_employeesLock)
+			{
+				EmployeeCount++;
+			}
+		}
+
+		public void DismissEmployee()
+		{
+			lock (_employeesLock)
+			{
+				if (EmployeeCount > 0)
+					EmployeeCount--;
+			}
 		}
 
 		public int Collect(int maxTransportCapacity)
 		{
-			lock (_lock)
+			lock (_internalStorageLock)
 			{
 				var min = Math.Min(maxTransportCapacity, InternalStorage);
 
@@ -47,7 +68,7 @@ namespace BuildIt.Store
 		{
 			var producedStuff = (int) Math.Round(ticks * Throughput, 0);
 
-			lock (_lock)
+			lock (_internalStorageLock)
 			{
 				InternalStorage += producedStuff;
 			}
