@@ -71,6 +71,9 @@
 
     void OnFactoryTypeSelected(FactoryType selection)
     {
+        if (selection != Self.Type)
+            Self.ResetStorage();
+        
         Self.Type = selection;
     }
 

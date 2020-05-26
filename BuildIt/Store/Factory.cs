@@ -42,7 +42,10 @@ namespace BuildIt.Store
 
 		public void Make()
 		{
-			InternalStorage++;
+			lock (_internalStorageLock)
+			{
+				InternalStorage++;
+			}
 		}
 
 		public void HireEmployee()
@@ -56,6 +59,13 @@ namespace BuildIt.Store
 				EmployeeCount--;
 		}
 
+		public void ResetStorage()
+		{
+			lock (_internalStorageLock)
+			{
+				InternalStorage = 0;
+			}
+		}
 		public int Collect(int maxTransportCapacity)
 		{
 			if (maxTransportCapacity <= 0)
