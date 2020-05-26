@@ -1,20 +1,21 @@
+@using BuildIt.Store
 <div class="factory">
     <div>
-        @if (Self.Status == Store.Factory.FactoryStatus.Online)
+        @if (Self.Status == FactoryStatus.Online)
         {
-            <button class="btn btn-warning btn-sm" @onclick="@() => Self.Status = Store.Factory.FactoryStatus.Offline">On</button>
+            <button class="btn btn-warning btn-sm" @onclick="@(() => Self.Status = FactoryStatus.Offline)">On</button>
         }
         else
         {
-            <button class="btn btn-success btn-sm" @onclick="@() => Self.Status = Store.Factory.FactoryStatus.Online">Off</button>
+            <button class="btn btn-success btn-sm" @onclick="@(() => Self.Status = FactoryStatus.Online)">Off</button>
         }
     </div>
     <table>
         <tr>
             <td>Type:</td>
             <td>
-                @{ var list = Enum.GetValues(typeof(Store.Factory.FactoryType)).Cast<Store.Factory.FactoryType>(); }
-                <Dropdown TItem="Store.Factory.FactoryType" OnSelected="@OnSelected">
+                @{ var list = Enum.GetValues(typeof(FactoryType)).Cast<FactoryType>(); }
+                <Dropdown TItem="Store.FactoryType" OnSelected="@OnFactoryTypeSelected">
                     <InitialTip>@Self.Type</InitialTip>
                     <ChildContent>
                         @foreach (var type in list)
@@ -37,11 +38,25 @@
             <td> @Self.Throughput</td>
         </tr>
         <tr>
-            <td>Employees</td>
+            <td>Employees:</td>
             <td>
                 @Self.EmployeeCount
                 <button class="btn btn-outline-success btn-sm" @onclick="HireEmployee">+</button>
                 <button class="btn btn-outline-danger btn-sm" @onclick="DismissEmployee">-</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Priority:</td>
+            <td>
+                <Dropdown TItem="int" OnSelected="@OnPriorityChanged">
+                    <InitialTip>@Self.Priority</InitialTip>
+                    <ChildContent>
+                        <DropdownListItem Item="1">1</DropdownListItem>
+                        <DropdownListItem Item="2">2</DropdownListItem>
+                        <DropdownListItem Item="3">3</DropdownListItem>
+                        <DropdownListItem Item="4">4</DropdownListItem>
+                    </ChildContent>
+                </Dropdown>
             </td>
         </tr>
     </table>
@@ -49,7 +64,12 @@
 
 @code{
 
-    void OnSelected(Store.Factory.FactoryType selection)
+    void OnPriorityChanged(int selection)
+    {
+        Self.Priority = selection;
+    }
+
+    void OnFactoryTypeSelected(FactoryType selection)
     {
         Self.Type = selection;
     }

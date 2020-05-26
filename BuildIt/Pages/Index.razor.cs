@@ -10,11 +10,12 @@ namespace BuildIt.Pages
 	{
 		private static Timer _timer;
 
-		private SaveGame _state = new SaveGame();
+		private Game _state = new Game();
 
 		public Index()
 		{
 			_timer = new Timer(1000);
+			_timer.AutoReset = false;
 			_timer.Elapsed += Elapsed;
 		}
 
@@ -22,17 +23,29 @@ namespace BuildIt.Pages
 
 		private void Elapsed(object sender, ElapsedEventArgs e)
 		{
-			InvokeAsync(() =>
+			var now = DateTime.UtcNow;
+			var delta = (int) (DateTime.UtcNow - _state.LastTick).TotalMilliseconds;
+			var totalPriority = _state.Factories.Sum(c => c.Priority);
+
+			foreach (var factory in _state.Factories)
 			{
-				var now = DateTime.UtcNow;
-				var delta = (int) (DateTime.UtcNow - _state.LastTick).TotalMilliseconds;
+				factory.Work(delta);
 
-				foreach (var factory in _state.Factories) factory.Work(delta);
+				if (totalPriority > 0)
+				{
+					var itemsToCollect = (int) Math.Round((double) factory.Priority / totalPriority * _state.TransportRobotThroughput * delta, 0);
+					Console.WriteLine($"Collect: {itemsToCollect}");
+					var cnt = factory.Collect(itemsToCollect);
+					_state.AddToStorage(factory.Type, cnt);
+				}
+			}
 
-				_state.Coal += _state.Factories.Sum(c => c.Collect(10));
-				_state.LastTick = now;
-				StateHasChanged();
-			});
+			_state.LastTick = now;
+
+
+			InvokeAsync(StateHasChanged);
+
+			_timer.Enabled = true;
 		}
 
 		private void AddFactory()

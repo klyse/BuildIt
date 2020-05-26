@@ -1,20 +1,13 @@
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using BuildIt.Store.Save;
 
 namespace BuildIt.Store
 {
-	public interface IStateManager
-	{
-		Task LoadAsync();
-		Task SaveAsync();
-
-		SaveGame Get();
-	}
-
 	public class StateManager : IStateManager
 	{
 		private readonly ILocalStorageService _localStorageService;
-		private SaveGame _saveGame;
+		private Game _game;
 
 		public StateManager(ILocalStorageService localStorageService)
 		{
@@ -23,18 +16,19 @@ namespace BuildIt.Store
 
 		public async Task LoadAsync()
 		{
-			_saveGame = await _localStorageService.GetItemAsync<SaveGame>("SaveGame") ?? new SaveGame();
-			_saveGame.Loaded = true;
+			var saveGame = await _localStorageService.GetItemAsync<SaveGame>("SaveGame") ?? new SaveGame();
+			_game = Game.FromSave(saveGame);
 		}
 
 		public async Task SaveAsync()
 		{
-			await _localStorageService.SetItemAsync("SaveGame", _saveGame);
+			var save = Game.ToSave(_game);
+			await _localStorageService.SetItemAsync("SaveGame", save);
 		}
 
-		public SaveGame Get()
+		public Game Get()
 		{
-			return _saveGame;
+			return _game;
 		}
 	}
 }

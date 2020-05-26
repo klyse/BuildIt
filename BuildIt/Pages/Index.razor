@@ -1,13 +1,27 @@
-﻿@page "/"
+@page "/"
 
 @if (_state.Loaded)
 {
-    <p>Available Coal: @_state.Coal</p>
+    foreach (var storage in _state.Storage)
+    {
+        <a>Available @storage.Key: @storage.Value</a>
+    }
+
+    <div>
+        <div>
+            <div>
+                Transport robots: @_state.TransportRobotCount
+                <button class="btn btn-outline-success btn-sm" @onclick="HireTransportRobot">+</button>
+                <button class="btn btn-outline-danger btn-sm" @onclick="DismissTransportRobot">-</button>
+            </div>
+            <p>Transport throughput: @_state.TransportRobotThroughput p/t</p>
+        </div>
+    </div>
 
     <button class="btn btn-primary" @onclick="SaveAsync">Save</button>
     <button class="btn btn-primary" @onclick="AddFactory">Add Factory</button>
 
-    <div class="scrollmenu">
+    <div class="scrollMenu">
         @foreach (var f in _state.Factories)
         {
             <Factory Self="@f"/>
@@ -16,6 +30,16 @@
 }
 
 @code {
+
+    void DismissTransportRobot()
+    {
+        _state.DismissTransportRobot();
+    }
+
+    void HireTransportRobot()
+    {
+        _state.HireTransportRobot();
+    }
 
     async Task SaveAsync()
     {

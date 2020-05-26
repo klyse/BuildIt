@@ -1,13 +1,11 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
 div.factory p{
     padding: 0;
     margin: 0;
 }
 
 div.factory {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     padding: 10px;
     margin: 10px;
     background: #1b1e21;
@@ -15,7 +13,7 @@ div.factory {
     color: white;
 }
 
-div.scrollmenu {
+div.scrollMenu {
     background-color: #e51616;
     overflow: auto;
 }
