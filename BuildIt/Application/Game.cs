@@ -13,15 +13,15 @@ namespace BuildIt.Application
 
 		public Game()
 		{
-			_timer = new Timer(1000);
-			_timer.AutoReset = false;
+			_timer = new Timer(1000) {AutoReset = false};
+			_timer.Elapsed += TimerOnElapsed;
 		}
 
 		public bool Loaded { get; private set; }
 		public int TransportRobotCount { get; private set; }
 		public double TransportRobotThroughput => (double) TransportRobotCount / 1000;
 		public ICollection<Factory> Factories { get; private set; }
-		public Dictionary<FactoryType, int> Storage { get; private set; }
+		public IDictionary<string, int> Storage { get; private set; }
 
 		public DateTime LastTick
 		{
@@ -29,18 +29,51 @@ namespace BuildIt.Application
 			set => _lastTick = value;
 		}
 
+		private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+		{
+			var now = DateTime.UtcNow;
+			var delta = (int) (DateTime.UtcNow - LastTick).TotalMilliseconds;
+			lock (Factories)
+			{
+				var totalPriority = Factories.Sum(c => c.Priority);
+
+				foreach (var factory in Factories)
+				{
+					factory.Work(delta);
+
+					if (totalPriority > 0)
+					{
+						var itemsToCollect = (int) Math.Round((double) factory.Priority / totalPriority * TransportRobotThroughput * delta, 0);
+
+						if (itemsToCollect <= 0)
+							continue;
+
+						var cnt = factory.Collect(itemsToCollect);
+						AddToStorage(factory.Type.ToString(), cnt);
+					}
+				}
+
+				LastTick = now;
+				_timer.Enabled = true;
+
+				Loaded = true;
+			}
+		}
+
 		public static SaveGame ToSave(Game game)
 		{
 			if (game is null)
 				throw new ArgumentNullException(nameof(game));
-
-			return new SaveGame
+			lock (game.Factories)
 			{
-				LastTick = game.LastTick,
-				TransportRobotCount = game.TransportRobotCount,
-				Storage = game.Storage.ToDictionary(c => c.Key.ToString(), c => c.Value),
-				Factories = game.Factories.Select(Factory.ToSave).ToList()
-			};
+				return new SaveGame
+				{
+					LastTick = game.LastTick,
+					TransportRobotCount = game.TransportRobotCount,
+					Storage = game.Storage.ToDictionary(c => c.Key.ToString(), c => c.Value),
+					Factories = game.Factories.Select(Factory.ToSave).ToList()
+				};
+			}
 		}
 
 		public static Game FromSave(SaveGame saveGame)
@@ -48,18 +81,24 @@ namespace BuildIt.Application
 			if (saveGame is null)
 				return new Game
 				{
-					Loaded = true,
 					LastTick = DateTime.UtcNow
 				};
 
 			return new Game
 			{
-				Loaded = true,
 				LastTick = saveGame.LastTick,
 				TransportRobotCount = saveGame.TransportRobotCount,
-				Storage = saveGame.Storage.ToDictionary(c => Enum.Parse<FactoryType>(c.Key), c => c.Value),
+				Storage = saveGame.Storage.ToDictionary(c => c.Key, c => c.Value),
 				Factories = saveGame.Factories.Select(Factory.FromSave).ToList()
 			};
+		}
+
+		public void Launch()
+		{
+			if (Loaded)
+				return;
+
+			_timer.Enabled = true;
 		}
 
 		public void HireTransportRobot()
@@ -73,7 +112,7 @@ namespace BuildIt.Application
 				TransportRobotCount--;
 		}
 
-		public void AddToStorage(FactoryType type, int cnt)
+		public void AddToStorage(string type, int cnt)
 		{
 			lock (Storage)
 			{
@@ -86,7 +125,14 @@ namespace BuildIt.Application
 
 		public void AddFactory(Factory f)
 		{
-			Factories.Add(f);
+			lock (Factories)
+				Factories.Add(f);
+		}
+
+		public void RemoveFactory(Factory f)
+		{
+			lock (Factories)
+				Factories.Remove(f);
 		}
 	}
 }

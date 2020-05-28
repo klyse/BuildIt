@@ -1,12 +1,14 @@
 @page "/"
+@using Factory = BuildIt.Application.Factory
 
 @if (_state.Loaded)
 {
+	<a>Ressources:</a>
+	<br/>
 	foreach (var storage in _state.Storage)
 	{
-		<a>Available @storage.Key: @storage.Value</a>
+		<a>@storage.Key: @storage.Value</a>
 	}
-
 	<div>
 		<div>
 			<div>
@@ -24,24 +26,38 @@
 	<div class="scrollMenu">
 		@foreach (var f in _state.Factories)
 		{
-			<Factory Self="@f"/>
+			<Factory Self="@f" Remove="@RemoveFactory"/>
 		}
 	</div>
+}
+else
+{
+	<a>Loading</a>
 }
 
 @code {
 
-	void DismissTransportRobot()
+	private void DismissTransportRobot()
 	{
 		_state.DismissTransportRobot();
 	}
 
-	void HireTransportRobot()
+	private void HireTransportRobot()
 	{
 		_state.HireTransportRobot();
 	}
 
-	async Task SaveAsync()
+	private void AddFactory()
+	{
+		_state.AddFactory(new Application.Factory());
+	}
+
+	private void RemoveFactory(Factory f)
+	{
+		_state.RemoveFactory(f);
+	}
+
+	private async Task SaveAsync()
 	{
 		await StateManager.SaveAsync();
 	}
@@ -52,6 +68,7 @@
 		{
 			await StateManager.LoadAsync();
 			_state = StateManager.Get();
+			_state.Launch();
 			_timer.Enabled = true;
 			StateHasChanged();
 		}

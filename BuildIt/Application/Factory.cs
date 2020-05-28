@@ -16,6 +16,10 @@ namespace BuildIt.Application
 
 		public int EmployeeCount { get; private set; }
 
+		public Factory()
+		{
+			Priority = 1;
+		}
 		public static Factory FromSave(SaveFactory factory)
 		{
 			return new Factory
@@ -92,7 +96,6 @@ namespace BuildIt.Application
 			lock (_internalStorageLock)
 			{
 				InternalStorage += producedStuff;
-				Console.WriteLine($"Prod: {producedStuff}");
 			}
 		}
 	}

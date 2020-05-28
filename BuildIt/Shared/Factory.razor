@@ -9,6 +9,8 @@
 		{
 			<button class="btn btn-success btn-sm" @onclick="@(() => Self.Status = FactoryStatus.Online)">Off</button>
 		}
+		
+		<button class="btn btn-danger btn-sm" @onclick="@(() => Remove(Self))">del</button>
 	</div>
 	<table>
 		<tr>
@@ -29,13 +31,13 @@
 		<tr>
 			<td>Storage:</td>
 			<td>
-				@Self.InternalStorage p/t
+				@Self.InternalStorage
 				<button class="btn btn-outline-info btn-sm" @onclick="Make">Make</button>
 			</td>
 		</tr>
 		<tr>
 			<td>Throughput:</td>
-			<td> @Self.Throughput</td>
+			<td> @Self.Throughput p/t</td>
 		</tr>
 		<tr>
 			<td>Employees:</td>
@@ -94,5 +96,8 @@
 
 	[Parameter]
 	public Application.Factory Self { get; set; }
+
+	[Parameter]
+	public Action<Application.Factory> Remove { get; set; }
 
 }
