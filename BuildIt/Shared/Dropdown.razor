@@ -1,41 +1,41 @@
 @typeparam TItem
 <div class="dropdown">
-    <button class="dropdown-toggle" data-toggle="dropdown" type="button" @onclick="e => show = !show"
-            aria-haspopup="true" aria-expanded="false">
-        @Tip
-    </button>
-    <CascadingValue name="Dropdown" Value="@(this)">
-        <div class="dropdown-menu @(show ? "show" : "")">
-            @ChildContent
-        </div>
-    </CascadingValue>
+	<button class="dropdown-toggle" data-toggle="dropdown" type="button" @onclick="e => show = !show"
+	        aria-haspopup="true" aria-expanded="false">
+		@Tip
+	</button>
+	<CascadingValue name="Dropdown" Value="@(this)">
+		<div class="dropdown-menu @(show ? "show" : "")">
+			@ChildContent
+		</div>
+	</CascadingValue>
 </div>
 
 @code {
 
-    [Parameter]
-    public RenderFragment InitialTip { get; set; }
+	[Parameter]
+	public RenderFragment InitialTip { get; set; }
 
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
 
-    [Parameter]
-    public EventCallback<TItem> OnSelected { get; set; }
+	[Parameter]
+	public EventCallback<TItem> OnSelected { get; set; }
 
-    private bool show;
-    private RenderFragment Tip;
+	private bool show;
+	private RenderFragment Tip;
 
-    protected override void OnInitialized()
-    {
-        Tip = InitialTip;
-    }
+	protected override void OnInitialized()
+	{
+		Tip = InitialTip;
+	}
 
-    public async Task HandleSelect(TItem item, RenderFragment<TItem> contentFragment)
-    {
-        Tip = contentFragment.Invoke(item);
-        show = false;
-        StateHasChanged();
-        await OnSelected.InvokeAsync(item);
-    }
+	public async Task HandleSelect(TItem item, RenderFragment<TItem> contentFragment)
+	{
+		Tip = contentFragment.Invoke(item);
+		show = false;
+		StateHasChanged();
+		await OnSelected.InvokeAsync(item);
+	}
 
 }

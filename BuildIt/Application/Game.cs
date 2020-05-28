@@ -1,13 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using BuildIt.Store.Save;
 
-namespace BuildIt.Store
+namespace BuildIt.Application
 {
 	public class Game
 	{
+		private static Timer _timer;
 		private DateTime? _lastTick;
+
+		public Game()
+		{
+			_timer = new Timer(1000);
+			_timer.AutoReset = false;
+		}
+
 		public bool Loaded { get; private set; }
 		public int TransportRobotCount { get; private set; }
 		public double TransportRobotThroughput => (double) TransportRobotCount / 1000;

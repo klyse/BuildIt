@@ -1,4 +1,4 @@
-namespace BuildIt.Store
+namespace BuildIt.Application
 {
 	public enum FactoryStatus
 	{

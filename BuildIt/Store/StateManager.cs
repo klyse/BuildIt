@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using BuildIt.Application;
 using BuildIt.Store.Save;
 
 namespace BuildIt.Store

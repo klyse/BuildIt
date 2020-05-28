@@ -2,59 +2,59 @@
 
 @if (_state.Loaded)
 {
-    foreach (var storage in _state.Storage)
-    {
-        <a>Available @storage.Key: @storage.Value</a>
-    }
+	foreach (var storage in _state.Storage)
+	{
+		<a>Available @storage.Key: @storage.Value</a>
+	}
 
-    <div>
-        <div>
-            <div>
-                Transport robots: @_state.TransportRobotCount
-                <button class="btn btn-outline-success btn-sm" @onclick="HireTransportRobot">+</button>
-                <button class="btn btn-outline-danger btn-sm" @onclick="DismissTransportRobot">-</button>
-            </div>
-            <p>Transport throughput: @_state.TransportRobotThroughput p/t</p>
-        </div>
-    </div>
+	<div>
+		<div>
+			<div>
+				Transport robots: @_state.TransportRobotCount
+				<button class="btn btn-outline-success btn-sm" @onclick="HireTransportRobot">+</button>
+				<button class="btn btn-outline-danger btn-sm" @onclick="DismissTransportRobot">-</button>
+			</div>
+			<p>Transport throughput: @_state.TransportRobotThroughput p/t</p>
+		</div>
+	</div>
 
-    <button class="btn btn-primary" @onclick="SaveAsync">Save</button>
-    <button class="btn btn-primary" @onclick="AddFactory">Add Factory</button>
+	<button class="btn btn-primary" @onclick="SaveAsync">Save</button>
+	<button class="btn btn-primary" @onclick="AddFactory">Add Factory</button>
 
-    <div class="scrollMenu">
-        @foreach (var f in _state.Factories)
-        {
-            <Factory Self="@f"/>
-        }
-    </div>
+	<div class="scrollMenu">
+		@foreach (var f in _state.Factories)
+		{
+			<Factory Self="@f"/>
+		}
+	</div>
 }
 
 @code {
 
-    void DismissTransportRobot()
-    {
-        _state.DismissTransportRobot();
-    }
+	void DismissTransportRobot()
+	{
+		_state.DismissTransportRobot();
+	}
 
-    void HireTransportRobot()
-    {
-        _state.HireTransportRobot();
-    }
+	void HireTransportRobot()
+	{
+		_state.HireTransportRobot();
+	}
 
-    async Task SaveAsync()
-    {
-        await StateManager.SaveAsync();
-    }
+	async Task SaveAsync()
+	{
+		await StateManager.SaveAsync();
+	}
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await StateManager.LoadAsync();
-            _state = StateManager.Get();
-            _timer.Enabled = true;
-            StateHasChanged();
-        }
-    }
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await StateManager.LoadAsync();
+			_state = StateManager.Get();
+			_timer.Enabled = true;
+			StateHasChanged();
+		}
+	}
 
 }

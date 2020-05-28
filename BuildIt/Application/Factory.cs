@@ -1,7 +1,7 @@
 using System;
 using BuildIt.Store.Save;
 
-namespace BuildIt.Store
+namespace BuildIt.Application
 {
 	public class Factory
 	{
@@ -66,6 +66,7 @@ namespace BuildIt.Store
 				InternalStorage = 0;
 			}
 		}
+
 		public int Collect(int maxTransportCapacity)
 		{
 			if (maxTransportCapacity <= 0)
