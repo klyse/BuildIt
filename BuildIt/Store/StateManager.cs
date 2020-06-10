@@ -8,7 +8,7 @@ namespace BuildIt.Store
 	public class StateManager : IStateManager
 	{
 		private readonly ILocalStorageService _localStorageService;
-		private Game _game;
+		private Game _game = new Game();
 
 		public StateManager(ILocalStorageService localStorageService)
 		{
