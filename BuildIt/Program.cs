@@ -1,8 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Application.Services;
+using Application.Store;
 using Blazored.LocalStorage;
-using BuildIt.Store;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,7 +28,8 @@ namespace BuildIt
 		{
 			services.AddBlazoredLocalStorage();
 
-			services.AddScoped<IStateManager, StateManager>();
+			services.AddScoped<IStateManager, StateManager>()
+				.AddScoped<ISaveService, SaveService>();
 
 			return services;
 		}

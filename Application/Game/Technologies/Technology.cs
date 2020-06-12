@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
-namespace BuildIt.Application.Technologies
+namespace Application.Game.Technologies
 {
 	public class Technology
 	{
@@ -14,10 +15,11 @@ namespace BuildIt.Application.Technologies
 		{
 			Name = name;
 			Tick = tick;
+			Identifier = GetType().FullName;
 		}
 
 		public string Name { get; }
-
+		public string Identifier { get; }
 		public decimal Tick { get; }
 		public ICollection<Requirement> BuildRequirements { get; } = new HashSet<Requirement>();
 	}

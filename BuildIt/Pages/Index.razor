@@ -1,11 +1,28 @@
 @page "/"
+@using Application.Game.Technologies
 
 @if (_state.Loaded)
 {
-	foreach (var t in _state.TechnologyTree.Technologies)
-	{
-		<p>@t.Name</p>
-	}
+	<div class="storage">
+		<h1>Storage:</h1>
+		@foreach (var t in _state.Storage)
+		{
+			<p>@t.Key.Name:@t.Value</p>
+		}
+	</div>
+
+
+	<div>
+		<p>Technologies:</p>
+		@foreach (var t in TechnologyTree.Technologies)
+		{
+			<input type="button" class="btn btn-sm btn-warning" disabled="@CanMake(t)" value="Make: @t.Name" @onclick="@(() => Make(t))"/>
+		}
+	</div>
+
+	<div>
+		<input type="button" class="btn btn-sm save" value="Save" onclick="@SaveAsync()"/>
+	</div>
 }
 else
 {
@@ -15,6 +32,16 @@ else
 @code {
 
 
+	private bool CanMake(Technology t)
+	{
+		return _state.CanMake(t);
+	}
+	
+	private void Make(Technology t)
+	{
+		 _state.AddToStorage(t, 1);
+	}
+	
 	private async Task SaveAsync()
 	{
 		await StateManager.SaveAsync();
@@ -27,7 +54,6 @@ else
 			await StateManager.LoadAsync();
 			_state = StateManager.Get();
 			_state.Launch();
-			_timer.Enabled = true;
 			StateHasChanged();
 		}
 	}

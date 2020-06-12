@@ -1,4 +1,4 @@
-namespace BuildIt.Application.Technologies
+namespace Application.Game.Technologies
 {
 	public class Requirement
 	{
@@ -8,7 +8,7 @@ namespace BuildIt.Application.Technologies
 			Quantity = quantity;
 		}
 
-		public Technology Technology { get; set; }
+		public Technology Technology { get; }
 		public decimal Quantity { get; }
 	}
 }

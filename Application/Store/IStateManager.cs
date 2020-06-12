@@ -1,13 +1,12 @@
 using System.Threading.Tasks;
-using BuildIt.Application;
 
-namespace BuildIt.Store
+namespace Application.Store
 {
 	public interface IStateManager
 	{
 		Task LoadAsync();
 		Task SaveAsync();
 
-		Game Get();
+		Game.Game Get();
 	}
 }

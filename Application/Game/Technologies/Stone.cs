@@ -1,4 +1,4 @@
-namespace BuildIt.Application.Technologies
+namespace Application.Game.Technologies
 {
 	public class Stone : Technology
 	{

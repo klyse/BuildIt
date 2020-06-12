@@ -1,15 +1,13 @@
-using System;
-using System.Linq;
 using System.Timers;
-using BuildIt.Application;
-using BuildIt.Store;
+using Application.Game;
+using Application.Store;
 using Microsoft.AspNetCore.Components;
 
 namespace BuildIt.Pages
 {
 	public partial class Index
 	{
-		private static Timer _timer;
+		private readonly Timer _timer;
 
 		private Game _state = new Game();
 
@@ -27,6 +25,5 @@ namespace BuildIt.Pages
 
 			_timer.Enabled = true;
 		}
-
 	}
 }
