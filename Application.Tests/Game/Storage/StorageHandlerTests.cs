@@ -21,7 +21,7 @@ namespace Application.Tests.Game.Storage
 			_storageHandler.Add(TechnologyTree.Stone, 3);
 
 
-			Assert.AreEqual(_storageHandler.GetDictionary()[TechnologyTree.Stone], 3);
+			Assert.AreEqual(3, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
 		}
 
 		[Test]
@@ -31,7 +31,7 @@ namespace Application.Tests.Game.Storage
 			_storageHandler.Add(TechnologyTree.Stone, 3);
 
 
-			Assert.AreEqual(_storageHandler.GetDictionary()[TechnologyTree.Stone], 6);
+			Assert.AreEqual(6, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
 		}
 
 		[Test]
@@ -42,7 +42,7 @@ namespace Application.Tests.Game.Storage
 			var res = _storageHandler.Take(TechnologyTree.Stone, 3);
 
 			Assert.IsTrue(res);
-			Assert.AreEqual(_storageHandler.GetDictionary()[TechnologyTree.Stone], 6);
+			Assert.AreEqual(6, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
 		}
 
 		[Test]
@@ -55,7 +55,7 @@ namespace Application.Tests.Game.Storage
 
 			Assert.IsTrue(res1);
 			Assert.IsTrue(res2);
-			Assert.AreEqual(_storageHandler.GetDictionary()[TechnologyTree.Stone], 3);
+			Assert.AreEqual(3, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
 		}
 
 		[Test]
@@ -68,7 +68,7 @@ namespace Application.Tests.Game.Storage
 
 			Assert.IsTrue(res1);
 			Assert.IsFalse(res2);
-			Assert.AreEqual(_storageHandler.GetDictionary()[TechnologyTree.Stone], 6);
+			Assert.AreEqual(6, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
 		}
 
 		[Test]
@@ -154,6 +154,28 @@ namespace Application.Tests.Game.Storage
 			Assert.IsTrue(res1);
 			Assert.IsTrue(res2);
 			Assert.IsFalse(res3);
+		}
+
+		[Test]
+		public void TakeMax_Limit()
+		{
+			_storageHandler.Add(TechnologyTree.Stone, 10);
+
+			var cnt = _storageHandler.TakeMax(TechnologyTree.Stone, 13);
+
+			Assert.AreEqual(10, cnt);
+			Assert.AreEqual(0, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
+		}
+		
+		[Test]
+		public void TakeMax()
+		{
+			_storageHandler.Add(TechnologyTree.Stone, 10);
+
+			var cnt = _storageHandler.TakeMax(TechnologyTree.Stone, 5);
+
+			Assert.AreEqual(5, cnt);
+			Assert.AreEqual(5, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
 		}
 	}
 }

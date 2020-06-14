@@ -28,6 +28,25 @@ namespace Application.Game.Storage
 			_storage.AddOrUpdate(tec, t => amount, (t, a) => a + amount);
 		}
 
+		public decimal TakeMax(Technology tec, decimal amount = 1)
+		{
+			if (amount <= 0)
+				throw new Exception("Amount cannot be <= 0");
+
+			if (!_storage.ContainsKey(tec))
+				return 0;
+
+			decimal minVal = 0;
+
+			_storage.AddOrUpdate(tec, _ => throw new Exception("Cannot add on take"), (t, a) =>
+			{
+				minVal = Math.Min(a, amount);
+				return a - minVal;
+			});
+
+			return minVal;
+		}
+
 		public bool Take(Technology tec, decimal amount = 1)
 		{
 			if (amount <= 0)

@@ -17,7 +17,7 @@ namespace BuildIt.Pages
 			_timer.Elapsed += Elapsed;
 		}
 
-		[Inject] protected IStateManager StateManager { get; set; }
+		[Inject] protected IStateManager StateManager { get; set; } = null!;
 
 		private void Elapsed(object sender, ElapsedEventArgs e)
 		{

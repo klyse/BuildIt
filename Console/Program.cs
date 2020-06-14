@@ -64,7 +64,7 @@ namespace Console
 						return;
 					case "1":
 						System.Console.Clear();
-						foreach (var keyValuePair in game.Storage) System.Console.WriteLine($"{keyValuePair.Key.Name}: {keyValuePair.Value}");
+						foreach (var keyValuePair in game.StorageHandler.GetDictionary()) System.Console.WriteLine($"{keyValuePair.Key.Name}: {keyValuePair.Value}");
 
 						break;
 					case "2":
@@ -76,7 +76,7 @@ namespace Console
 									loop = false;
 									break;
 								case "1":
-									game.AddToStorage(TechnologyTree.Stone);
+									game.StorageHandler.Add(TechnologyTree.Stone);
 									break;
 							}
 
