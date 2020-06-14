@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Application.Game.Jobs;
 
 namespace Application.Store.Save
 {
 	public class SaveGame
 	{
 		public DateTime LastTick { get; set; }
-		public Dictionary<string, decimal> Storage { get; set; } = new Dictionary<string, decimal>();
+		public SaveStorageHandler Storage { get; set; } = new SaveStorageHandler();
+		public IList<Job> Jobs { get; set; } = new List<Job>();
 	}
 }

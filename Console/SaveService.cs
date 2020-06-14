@@ -12,12 +12,12 @@ namespace Console
 		{
 			if (File.Exists("save.json"))
 			{
-			var text = await File.ReadAllTextAsync("save.json");
+				var text = await File.ReadAllTextAsync("save.json");
 
-			return JsonSerializer.Deserialize<T>(text);
+				return JsonSerializer.Deserialize<T>(text);
 			}
 
-			return default(T);
+			return default;
 		}
 
 		public async Task SaveAsync<T>(T value)

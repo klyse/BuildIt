@@ -5,7 +5,7 @@
 {
 	<div class="storage">
 		<h1>Storage:</h1>
-		@foreach (var t in _state.Storage)
+		@foreach (var t in _state.StorageHandler.GetDictionary())
 		{
 			<p>@t.Key.Name:@t.Value</p>
 		}
@@ -16,7 +16,7 @@
 		<p>Technologies:</p>
 		@foreach (var t in TechnologyTree.Technologies)
 		{
-			<input type="button" class="btn btn-sm btn-warning" disabled="@CanMake(t)" value="Make: @t.Name" @onclick="@(() => Make(t))"/>
+			<input type="button" class="btn btn-sm btn-warning" disabled="@IsDisabled(t)" value="Make: @t.Name" @onclick="@(() => Make(t))"/>
 		}
 	</div>
 
@@ -32,16 +32,16 @@ else
 @code {
 
 
-	private bool CanMake(Technology t)
+	private bool IsDisabled(Technology t)
 	{
-		return _state.CanMake(t);
+		return !_state.StorageHandler.CanMake(t);
 	}
-	
+
 	private void Make(Technology t)
 	{
-		 _state.AddToStorage(t, 1);
+		_state.Make(t);
 	}
-	
+
 	private async Task SaveAsync()
 	{
 		await StateManager.SaveAsync();

@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Timers;
+using Application.Game.Jobs;
+using Application.Game.Storage;
 using Application.Game.Technologies;
 using Application.Store.Save;
 
@@ -13,43 +15,40 @@ namespace Application.Game
 	public class Game
 	{
 		private readonly Timer _timer;
-		private DateTime? _lastTick;
 
 		public Game()
 		{
+			LastTick = DateTime.UtcNow;
+			StorageHandler = new StorageHandler();
+			Jobs = new ConcurrentQueue<Job>();
 			_timer = new Timer(1000) {AutoReset = false};
 			_timer.Elapsed += TimerOnElapsed;
-			Storage = new ConcurrentDictionary<Technology, decimal>();
 		}
 
-		public ConcurrentDictionary<Technology, decimal> Storage { get; private set; }
-
+		public ConcurrentQueue<Job> Jobs { get; private set; }
+		public StorageHandler StorageHandler { get; private set; }
 		public bool Loaded { get; private set; }
+		public DateTime LastTick { get; private set; }
 
-		public bool CanMake(Technology tec)
+		public bool Make(Technology tec)
 		{
-			foreach (var tecBuildRequirement in tec.BuildRequirements)
+			if (StorageHandler.Make(tec, out _))
 			{
-				if (!Storage.ContainsKey(tecBuildRequirement.Technology))
-					return false;
-
-				if (Storage[tec] > tecBuildRequirement.Quantity)
-					return false;
+				StorageHandler.Add(tec);
+				return true;
 			}
 
-			return true;
-		}
-		
-		public void AddToStorage(Technology tec, decimal amount = 1)
-		{
-			Storage.AddOrUpdate(tec, t => amount, (t, a) => a + amount);
+			return false;
 		}
 
-		public DateTime LastTick
+		public void Enqueue(Technology tec, decimal amount = 0)
 		{
-			get => _lastTick ?? DateTime.UtcNow;
-			set => _lastTick = value;
+			for (decimal i = 0; i < amount; i++)
+			{
+				Jobs.Enqueue(new MakeJob(tec));
+			}
 		}
+
 
 		private void TimerOnElapsed(object sender, ElapsedEventArgs e)
 		{
@@ -70,7 +69,8 @@ namespace Application.Game
 			return new SaveGame
 			{
 				LastTick = game.LastTick,
-				Storage = game.Storage.ToDictionary(c => c.Key.Identifier, c => c.Value)
+				Storage = Storage.StorageHandler.ToSave(game.StorageHandler),
+				Jobs = game.Jobs.ToList()
 			};
 		}
 
@@ -87,7 +87,8 @@ namespace Application.Game
 			{
 				Loaded = true,
 				LastTick = saveGame.LastTick,
-				Storage = new ConcurrentDictionary<Technology, decimal>(saveGame.Storage.ToDictionary(c => TechnologyTree.Technologies.First(r => r.Identifier == c.Key), c => c.Value))
+				StorageHandler = StorageHandler.FromSave(saveGame.Storage),
+				Jobs = new ConcurrentQueue<Job>(saveGame.Jobs)
 			};
 		}
 
