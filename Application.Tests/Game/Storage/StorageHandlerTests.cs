@@ -7,7 +7,7 @@ namespace Application.Tests.Game.Storage
 {
 	public class StorageHandlerTests
 	{
-		StorageHandler _storageHandler;
+		private StorageHandler _storageHandler;
 
 		[SetUp]
 		public void Setup()

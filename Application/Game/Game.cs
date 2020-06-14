@@ -69,7 +69,7 @@ namespace Application.Game
 			return new SaveGame
 			{
 				LastTick = game.LastTick,
-				Storage = Storage.StorageHandler.ToSave(game.StorageHandler),
+				Storage = StorageHandler.ToSave(game.StorageHandler),
 				Jobs = game.Jobs.ToList()
 			};
 		}
