@@ -9,12 +9,12 @@ namespace Application.Game.Storage
 {
 	public class StorageHandler
 	{
+		private ConcurrentDictionary<Technology, decimal> _storage;
+
 		public StorageHandler()
 		{
 			_storage = new ConcurrentDictionary<Technology, decimal>();
 		}
-
-		private ConcurrentDictionary<Technology, decimal> _storage;
 
 		public IDictionary<Technology, decimal> GetDictionary()
 		{
@@ -68,14 +68,12 @@ namespace Application.Game.Storage
 			var reservation = new Reservation(this);
 			res = reservation;
 			foreach (var req in tec.BuildRequirements)
-			{
 				if (!reservation.Add(req.Technology, req.Quantity))
 				{
 					// add reservation back to storage
 					reservation.RollBack();
 					return false;
 				}
-			}
 
 			return true;
 		}

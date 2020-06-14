@@ -4,21 +4,21 @@ namespace Application.Game.Jobs
 {
 	public class Job
 	{
-		public string Name { get; }
-
 		public Job(string Name)
 		{
 			this.Name = Name;
 		}
+
+		public string Name { get; }
 	}
 
 	public class MakeJob : Job
 	{
-		public Technology Tec { get; }
-
 		public MakeJob(Technology tec) : base($"Make {tec.Name}")
 		{
 			Tec = tec;
 		}
+
+		public Technology Tec { get; }
 	}
 }

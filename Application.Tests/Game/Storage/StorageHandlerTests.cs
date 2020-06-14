@@ -80,10 +80,7 @@ namespace Application.Tests.Game.Storage
 		[Test]
 		public void CanMake()
 		{
-			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements)
-			{
-				_storageHandler.Add(requirement.Technology, requirement.Quantity);
-			}
+			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements) _storageHandler.Add(requirement.Technology, requirement.Quantity);
 
 			Assert.IsTrue(_storageHandler.CanMake(TechnologyTree.StoneAxe));
 		}
@@ -91,10 +88,7 @@ namespace Application.Tests.Game.Storage
 		[Test]
 		public void CanMake_NotEnoughResources()
 		{
-			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements)
-			{
-				_storageHandler.Add(requirement.Technology, requirement.Quantity);
-			}
+			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements) _storageHandler.Add(requirement.Technology, requirement.Quantity);
 
 			var tec = TechnologyTree.StoneAxe.BuildRequirements.First().Technology;
 			// remove one element
@@ -123,10 +117,7 @@ namespace Application.Tests.Game.Storage
 		[Test]
 		public void Make_AddResourcesFirst()
 		{
-			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements)
-			{
-				_storageHandler.Add(requirement.Technology, requirement.Quantity);
-			}
+			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements) _storageHandler.Add(requirement.Technology, requirement.Quantity);
 
 			var res = _storageHandler.Make(TechnologyTree.StoneAxe, out _);
 
@@ -136,10 +127,7 @@ namespace Application.Tests.Game.Storage
 		[Test]
 		public void Make_NotEnoughResources()
 		{
-			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements)
-			{
-				_storageHandler.Add(requirement.Technology, requirement.Quantity);
-			}
+			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements) _storageHandler.Add(requirement.Technology, requirement.Quantity);
 
 			var tec = TechnologyTree.StoneAxe.BuildRequirements.First().Technology;
 			// remove one element
@@ -154,10 +142,7 @@ namespace Application.Tests.Game.Storage
 		[Test]
 		public void Make_Two_NotEnoughResourcesForSecond()
 		{
-			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements)
-			{
-				_storageHandler.Add(requirement.Technology, requirement.Quantity * 2);
-			}
+			foreach (var requirement in TechnologyTree.StoneAxe.BuildRequirements) _storageHandler.Add(requirement.Technology, requirement.Quantity * 2);
 
 			var tec = TechnologyTree.StoneAxe.BuildRequirements.First().Technology;
 			// remove one element

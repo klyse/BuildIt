@@ -15,18 +15,15 @@ namespace Application.Game.Storage
 		}
 
 		/// <summary>
-		/// Rolls back a certain transaction
+		///     Rolls back a certain transaction
 		/// </summary>
 		public void RollBack()
 		{
-			foreach (var keyValuePair in _technologies)
-			{
-				_storage.Add(keyValuePair.Key, keyValuePair.Value);
-			}
+			foreach (var keyValuePair in _technologies) _storage.Add(keyValuePair.Key, keyValuePair.Value);
 		}
 
 		/// <summary>
-		/// Adds a reservation
+		///     Adds a reservation
 		/// </summary>
 		/// <returns>true if reservation was successful; false if reservation is unsuccessful</returns>
 		public bool Add(Technology tec, decimal quantity = 1)

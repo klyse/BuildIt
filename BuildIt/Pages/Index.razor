@@ -13,11 +13,12 @@
 
 
 	<div>
-		<p>Technologies:</p>
-		@foreach (var t in TechnologyTree.Technologies)
-		{
+	<p>Technologies:</p>
+	@foreach (var t in TechnologyTree.Technologies)
+	{
 			<input type="button" class="btn btn-sm btn-warning" disabled="@IsDisabled(t)" value="Make: @t.Name" @onclick="@(() => Make(t))"/>
-		}
+	}
+	
 	</div>
 
 	<div>

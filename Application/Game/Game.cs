@@ -2,8 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Timers;
 using Application.Game.Jobs;
 using Application.Game.Storage;
@@ -43,10 +41,7 @@ namespace Application.Game
 
 		public void Enqueue(Technology tec, decimal amount = 0)
 		{
-			for (decimal i = 0; i < amount; i++)
-			{
-				Jobs.Enqueue(new MakeJob(tec));
-			}
+			for (decimal i = 0; i < amount; i++) Jobs.Enqueue(new MakeJob(tec));
 		}
 
 
