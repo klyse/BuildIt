@@ -166,7 +166,7 @@ namespace Application.Tests.Game.Storage
 			Assert.AreEqual(10, cnt);
 			Assert.AreEqual(0, _storageHandler.GetDictionary()[TechnologyTree.Stone]);
 		}
-		
+
 		[Test]
 		public void TakeMax()
 		{
