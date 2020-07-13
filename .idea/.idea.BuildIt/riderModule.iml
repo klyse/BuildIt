@@ -9,6 +9,7 @@
     <content url="file://$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/NUnit3.TestAdapter.pdb" />
     <content url="file://$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/nunit.engine.api.dll" />
     <content url="file://$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/nunit.engine.dll" />
+    <content url="file://$USER_HOME$/.nuget/packages/radzen.blazor/2.10.16/contentFiles/any/netstandard2.1/Properties/launchSettings.json" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

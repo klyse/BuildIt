@@ -6,6 +6,7 @@ using Application.Store;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Radzen;
 
 namespace BuildIt
 {
@@ -31,7 +32,10 @@ namespace BuildIt
 			services.AddBlazoredLocalStorage();
 
 			services.AddScoped<IStateManager, StateManager>()
-				.AddScoped<ISaveService, SaveService>();
+				.AddScoped<ISaveService, SaveService>()
+				.AddScoped<DialogService>()
+				.AddScoped<NotificationService>();
+
 
 			return services;
 		}
