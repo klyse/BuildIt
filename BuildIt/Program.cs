@@ -17,7 +17,9 @@ namespace BuildIt
 			builder.RootComponents.Add<App>("app");
 
 			builder.Services.AddTransient(sp => new HttpClient
-				{BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
+			{
+				BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+			});
 
 			AddServices(builder.Services);
 
