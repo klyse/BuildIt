@@ -1,5 +1,5 @@
 @page "/"
-@using Application.Game.Technologies
+@using Application.Game.Items
 
 @if (_state.Loaded)
 {
@@ -14,7 +14,7 @@
 
 	<div>
 		<p>Technologies:</p>
-		@foreach (var t in TechnologyTree.Technologies)
+		@foreach (var t in Items.Technologies)
 		{
 			<input type="button" class="btn btn-sm btn-warning" disabled="@IsDisabled(t)" value="Make: @t.Name" @onclick="@(() => Make(t))"/>
 		}
@@ -34,12 +34,12 @@ else
 @code {
 
 
-	private bool IsDisabled(Technology t)
+	private bool IsDisabled(Item t)
 	{
 		return !_state.StorageHandler.CanMake(t);
 	}
 
-	private void Make(Technology t)
+	private void Make(Item t)
 	{
 		_state.Make(t);
 	}

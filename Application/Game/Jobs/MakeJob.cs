@@ -1,14 +1,14 @@
-using Application.Game.Technologies;
+using Application.Game.Items;
 
 namespace Application.Game.Jobs
 {
 	public class MakeJob : Job
 	{
-		public MakeJob(Technology tec) : base($"Make {tec.Name}")
+		public MakeJob(Item tec) : base($"Make {tec.Name}")
 		{
 			Tec = tec;
 		}
 
-		public Technology Tec { get; }
+		public Item Tec { get; }
 	}
 }

@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-using Application.Game.Technologies;
+using Application.Game.Items;
 
 namespace Application.Game.Storage
 {
 	public class Reservation
 	{
 		private readonly StorageHandler _storage;
-		private readonly IDictionary<Technology, decimal> _technologies;
+		private readonly IDictionary<Item, decimal> _technologies;
 
 		public Reservation(StorageHandler storage)
 		{
 			_storage = storage;
-			_technologies = new Dictionary<Technology, decimal>();
+			_technologies = new Dictionary<Item, decimal>();
 		}
 
 		/// <summary>
@@ -26,7 +26,7 @@ namespace Application.Game.Storage
 		///     Adds a reservation
 		/// </summary>
 		/// <returns>true if reservation was successful; false if reservation is unsuccessful</returns>
-		public bool Add(Technology tec, decimal quantity = 1)
+		public bool Add(Item tec, decimal quantity = 1)
 		{
 			if (_storage.Take(tec, quantity))
 			{

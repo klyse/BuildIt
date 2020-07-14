@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Timers;
+using Application.Game.Items;
 using Application.Game.Jobs;
 using Application.Game.Storage;
-using Application.Game.Technologies;
 using Application.Store.Save;
 
 namespace Application.Game
@@ -28,7 +28,7 @@ namespace Application.Game
 		public bool Loaded { get; private set; }
 		public DateTime LastTick { get; private set; }
 
-		public bool Make(Technology tec)
+		public bool Make(Item tec)
 		{
 			if (StorageHandler.Make(tec, out _))
 			{
@@ -39,7 +39,7 @@ namespace Application.Game
 			return false;
 		}
 
-		public void Enqueue(Technology tec, decimal amount = 0)
+		public void Enqueue(Item tec, decimal amount = 0)
 		{
 			for (decimal i = 0; i < amount; i++) Jobs.Enqueue(new MakeJob(tec));
 		}

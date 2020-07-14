@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Application.Game.Technologies
+namespace Application.Game.Items
 {
-	public class Technology
+	public class Item
 	{
-		public Technology(string name, decimal tick, params Requirement[] requirements) : this(name, tick)
+		public Item(string name, decimal tick, params Requirement[] requirements) : this(name, tick)
 		{
 			BuildRequirements = requirements.ToHashSet();
 		}
 
-		public Technology(string name, decimal tick)
+		public Item(string name, decimal tick)
 		{
 			Name = name;
 			Tick = tick;
@@ -23,17 +23,17 @@ namespace Application.Game.Technologies
 		public decimal Tick { get; }
 		public ICollection<Requirement> BuildRequirements { get; } = new HashSet<Requirement>();
 
-		private IEnumerable<(Technology, decimal)> GetTotalRequirementsTuple()
+		private IEnumerable<(Item, decimal)> GetTotalRequirementsTuple()
 		{
 			foreach (var r in BuildRequirements)
 			{
-				yield return new ValueTuple<Technology, decimal>(r.Technology, r.Quantity);
+				yield return new ValueTuple<Item, decimal>(r.Item, r.Quantity);
 
-				foreach (var valueTuple in r.Technology.GetTotalRequirementsTuple()) yield return valueTuple;
+				foreach (var valueTuple in r.Item.GetTotalRequirementsTuple()) yield return valueTuple;
 			}
 		}
 
-		public IDictionary<Technology, decimal> GetTotalRequirements()
+		public IDictionary<Item, decimal> GetTotalRequirements()
 		{
 			var totalRequirements = GetTotalRequirementsTuple().GroupBy(c => c.Item1)
 				.ToDictionary(c => c.Key, c => c.Sum(r => r.Item2));

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Application.Game.Technologies;
+using Application.Game.Items;
 using Application.Services;
 using Application.Store;
 using Microsoft.Extensions.DependencyInjection;
@@ -76,7 +76,7 @@ namespace Console
 									loop = false;
 									break;
 								case "1":
-									game.StorageHandler.Add(TechnologyTree.Stone);
+									game.StorageHandler.Add(Items.Stone);
 									break;
 							}
 
