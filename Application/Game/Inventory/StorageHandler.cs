@@ -5,8 +5,14 @@ using System.Linq;
 using Application.Game.Items;
 using Application.Store.Save;
 
-namespace Application.Game.Storage
+namespace Application.Game.Inventory
 {
+	public class C
+	{
+		public Item Item { get; set; }
+		public decimal Count { get; set; }
+	}
+
 	public class StorageHandler
 	{
 		private ConcurrentDictionary<Item, decimal> _storage;
@@ -19,6 +25,15 @@ namespace Application.Game.Storage
 		public IDictionary<Item, decimal> GetDictionary()
 		{
 			return _storage;
+		}
+
+		public IEnumerable<C> GetList()
+		{
+			return _storage.Select(c => new C
+			{
+				Count = c.Value,
+				Item = c.Key
+			});
 		}
 
 		public void Add(Item tec, decimal amount = 1)
@@ -101,7 +116,7 @@ namespace Application.Game.Storage
 		{
 			var sh = new StorageHandler();
 
-			sh._storage = new ConcurrentDictionary<Item, decimal>(storageHandler.Storage.ToDictionary(c => Items.Items.Technologies.First(r => r.Identifier == c.Key), c => c.Value));
+			sh._storage = new ConcurrentDictionary<Item, decimal>(storageHandler.Storage.ToDictionary(c => ItemsTree.ItemsCollection.First(r => r.Identifier == c.Key), c => c.Value));
 
 			return sh;
 		}

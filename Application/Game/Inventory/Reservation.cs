@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Application.Game.Items;
 
-namespace Application.Game.Storage
+namespace Application.Game.Inventory
 {
 	public class Reservation
 	{

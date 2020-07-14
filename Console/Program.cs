@@ -76,7 +76,7 @@ namespace Console
 									loop = false;
 									break;
 								case "1":
-									game.StorageHandler.Add(Items.Stone);
+									game.StorageHandler.Add(ItemsTree.Stone);
 									break;
 							}
 

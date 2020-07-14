@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Timers;
+using Application.Game.Inventory;
 using Application.Game.Items;
 using Application.Game.Jobs;
-using Application.Game.Storage;
 using Application.Store.Save;
 
 namespace Application.Game

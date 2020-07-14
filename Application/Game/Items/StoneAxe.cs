@@ -4,8 +4,8 @@ namespace Application.Game.Items
 	{
 		public StoneAxe() : base("Stone Axe",
 			15000,
-			new Requirement(Items.Wood, 3),
-			new Requirement(Items.Stone, 5))
+			new Requirement(ItemsTree.Wood, 3),
+			new Requirement(ItemsTree.Stone, 5))
 		{
 		}
 	}

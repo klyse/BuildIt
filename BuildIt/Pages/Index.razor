@@ -3,22 +3,16 @@
 
 @if (_state.Loaded)
 {
-	<div class="storage">
-		<h1>Storage:</h1>
-		@foreach (var t in _state.StorageHandler.GetDictionary())
-		{
-			<p>@t.Key.Name:@t.Value</p>
-		}
-	</div>
+	<Inventory StorageHandler="@_state.StorageHandler" />
+	
 
 
 	<div>
 		<p>Technologies:</p>
-		@foreach (var t in Items.Technologies)
+		@foreach (var t in ItemsTree.ItemsCollection)
 		{
 			<input type="button" class="btn btn-sm btn-warning" disabled="@IsDisabled(t)" value="Make: @t.Name" @onclick="@(() => Make(t))"/>
 		}
-
 
 	</div>
 

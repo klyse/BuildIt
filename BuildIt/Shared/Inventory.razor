@@ -1,0 +1,16 @@
+@using Application.Game.Inventory
+@using Radzen
+
+<RadzenGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="4"
+            AllowSorting="true" Data="@StorageHandler.GetList()" TItem="C">
+	<Columns>
+		<RadzenGridColumn TItem="C" Property="Item.Name" Title="Name"/>
+		@* <RadzenGridColumn TItem="C" Property="Count" Title="Quantity"/> *@
+	</Columns>
+</RadzenGrid>
+
+@code
+{
+	[Parameter]
+	public StorageHandler StorageHandler { get; set; }
+}
