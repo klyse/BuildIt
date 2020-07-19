@@ -1,26 +1,35 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Application.Game.Items
 {
 	public class Item
 	{
-		public Item(string name, decimal tick, params Requirement[] requirements) : this(name, tick)
+		public Item(string name, decimal createTick, decimal researchTick, params Requirement[] requirements) : this(name, createTick, researchTick, 1, requirements)
+		{
+		}
+
+		public Item(string name, decimal createTick, decimal researchTick, decimal durabilityCount, params Requirement[] requirements) : this(name, createTick, researchTick, durabilityCount)
 		{
 			BuildRequirements = requirements.ToHashSet();
 		}
 
-		public Item(string name, decimal tick)
+		public Item(string name, decimal createTick, decimal researchTick = 0, decimal durabilityCount = 1)
 		{
 			Name = name;
-			Tick = tick;
+			CreateTick = createTick;
+			ResearchTick = researchTick;
+			DurabilityCount = durabilityCount;
 			Identifier = GetType().FullName;
 		}
 
 		public string Name { get; }
 		public string Identifier { get; }
-		public decimal Tick { get; }
+		public decimal CreateTick { get; }
+		public decimal ResearchTick { get; }
+		public decimal DurabilityCount { get; }
 		public ICollection<Requirement> BuildRequirements { get; } = new HashSet<Requirement>();
 
 		private IEnumerable<(Item, decimal)> GetTotalRequirementsTuple()

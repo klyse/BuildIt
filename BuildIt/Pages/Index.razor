@@ -3,22 +3,6 @@
 
 @if (_state.Loaded)
 {
-	<Inventory StorageHandler="@_state.StorageHandler" />
-	
-
-
-	<div>
-		<p>Technologies:</p>
-		@foreach (var t in ItemsTree.ItemsCollection)
-		{
-			<input type="button" class="btn btn-sm btn-warning" disabled="@IsDisabled(t)" value="Make: @t.Name" @onclick="@(() => Make(t))"/>
-		}
-
-	</div>
-
-	<div>
-		<input type="button" class="btn btn-sm save" value="Save" onclick="@SaveAsync()"/>
-	</div>
 }
 else
 {
@@ -26,22 +10,6 @@ else
 }
 
 @code {
-
-
-	private bool IsDisabled(Item t)
-	{
-		return !_state.StorageHandler.CanMake(t);
-	}
-
-	private void Make(Item t)
-	{
-		_state.Make(t);
-	}
-
-	private async Task SaveAsync()
-	{
-		await StateManager.SaveAsync();
-	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{

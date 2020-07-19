@@ -28,23 +28,6 @@ namespace Application.Game
 		public bool Loaded { get; private set; }
 		public DateTime LastTick { get; private set; }
 
-		public bool Make(Item tec)
-		{
-			if (StorageHandler.Make(tec, out _))
-			{
-				StorageHandler.Add(tec);
-				return true;
-			}
-
-			return false;
-		}
-
-		public void Enqueue(Item tec, decimal amount = 0)
-		{
-			for (decimal i = 0; i < amount; i++) Jobs.Enqueue(new MakeJob(tec));
-		}
-
-
 		private void TimerOnElapsed(object sender, ElapsedEventArgs e)
 		{
 			var now = DateTime.UtcNow;
@@ -52,8 +35,6 @@ namespace Application.Game
 
 			LastTick = now;
 			_timer.Enabled = true;
-
-			Loaded = true;
 		}
 
 		public static SaveGame ToSave(Game game)

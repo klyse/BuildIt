@@ -2,7 +2,7 @@ namespace Application.Game.Items
 {
 	public class Stone : Item
 	{
-		public Stone() : base("Stone", 5000)
+		public Stone() : base("Stone", createTick: 15000)
 		{
 		}
 	}

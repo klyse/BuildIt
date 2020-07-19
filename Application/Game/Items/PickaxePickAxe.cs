@@ -1,8 +1,8 @@
 namespace Application.Game.Items
 {
-	public class StoneAxe : Item
+	public class PickaxePickAxe : Item
 	{
-		public StoneAxe() : base("Stone Axe",
+		public PickaxePickAxe() : base("Stone Pickaxe",
 			createTick: 15000,
 			researchTick: 0,
 			durabilityCount: 100,
