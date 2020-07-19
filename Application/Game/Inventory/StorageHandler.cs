@@ -7,12 +7,6 @@ using Application.Store.Save;
 
 namespace Application.Game.Inventory
 {
-	public class C
-	{
-		public Item Item { get; set; }
-		public decimal Count { get; set; }
-	}
-
 	public class StorageHandler
 	{
 		private ConcurrentDictionary<Item, decimal> _storage;
@@ -27,13 +21,9 @@ namespace Application.Game.Inventory
 			return _storage;
 		}
 
-		public IEnumerable<C> GetList()
+		public IEnumerable<StorageItem> GetList()
 		{
-			return _storage.Select(c => new C
-			{
-				Count = c.Value,
-				Item = c.Key
-			});
+			return _storage.Select(c => new StorageItem(c.Key, c.Value));
 		}
 
 		public void Add(Item tec, decimal amount = 1)
@@ -41,25 +31,6 @@ namespace Application.Game.Inventory
 			if (amount <= 0)
 				throw new Exception("Amount cannot be <= 0");
 			_storage.AddOrUpdate(tec, t => amount, (t, a) => a + amount);
-		}
-
-		public decimal TakeMax(Item tec, decimal amount = 1)
-		{
-			if (amount <= 0)
-				throw new Exception("Amount cannot be <= 0");
-
-			if (!_storage.ContainsKey(tec))
-				return 0;
-
-			decimal minVal = 0;
-
-			_storage.AddOrUpdate(tec, _ => throw new Exception("Cannot add on take"), (t, a) =>
-			{
-				minVal = Math.Min(a, amount);
-				return a - minVal;
-			});
-
-			return minVal;
 		}
 
 		public bool Take(Item tec, decimal amount = 1)
@@ -99,7 +70,7 @@ namespace Application.Game.Inventory
 
 		public bool Make(Item tec, out Reservation res)
 		{
-			var reservation = new Reservation(this);
+			using var reservation = new Reservation(this);
 			res = reservation;
 			foreach (var req in tec.BuildRequirements)
 				if (!reservation.Add(req.Item, req.Quantity))

@@ -7,7 +7,7 @@ namespace Application.Tests.Game.Storage
 {
 	public class StorageHandlerTests
 	{
-		private StorageHandler _storageHandler;
+		private StorageHandler _storageHandler = new StorageHandler();
 
 		[SetUp]
 		public void Setup()
@@ -154,28 +154,6 @@ namespace Application.Tests.Game.Storage
 			Assert.IsTrue(res1);
 			Assert.IsTrue(res2);
 			Assert.IsFalse(res3);
-		}
-
-		[Test]
-		public void TakeMax_Limit()
-		{
-			_storageHandler.Add(ItemsTree.Stone, 10);
-
-			var cnt = _storageHandler.TakeMax(ItemsTree.Stone, 13);
-
-			Assert.AreEqual(10, cnt);
-			Assert.AreEqual(0, _storageHandler.GetDictionary()[ItemsTree.Stone]);
-		}
-
-		[Test]
-		public void TakeMax()
-		{
-			_storageHandler.Add(ItemsTree.Stone, 10);
-
-			var cnt = _storageHandler.TakeMax(ItemsTree.Stone, 5);
-
-			Assert.AreEqual(5, cnt);
-			Assert.AreEqual(5, _storageHandler.GetDictionary()[ItemsTree.Stone]);
 		}
 	}
 }

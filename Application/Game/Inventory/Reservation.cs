@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Application.Game.Items;
 
 namespace Application.Game.Inventory
 {
-	public class Reservation
+	public class Reservation : IDisposable
 	{
 		private readonly StorageHandler _storage;
 		private readonly IDictionary<Item, decimal> _technologies;
@@ -35,6 +36,11 @@ namespace Application.Game.Inventory
 			}
 
 			return false;
+		}
+
+		public void Dispose()
+		{
+			RollBack();
 		}
 	}
 }
