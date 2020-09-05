@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="MediatR" Version="8.0.2" />
+	  <PackageReference Include="MongoDB.Bson" Version="2.10.4" />
+	  <PackageReference Include="MongoDB.Driver" Version="2.10.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Requests\Crafting\Commands\Post" />
+	  <Folder Include="Requests\User\Queries" />
+	</ItemGroup>
+
+</Project>
